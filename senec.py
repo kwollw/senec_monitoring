@@ -29,10 +29,10 @@ class Senec():
 
     def __init__(self, device_ip):
         self.device_ip = device_ip
-        self.read_api  = f"http://{device_ip}/lala.cgi"
+        self.read_api  = f"https://{device_ip}/lala.cgi"
         
     def get_values(self):
-        response = requests.post(self.read_api, json=BASIC_REQUEST)
+        response = requests.post(self.read_api, json=BASIC_REQUEST, verify=False)
         if response.status_code == 200:
             res = self.__decode_data(response.json())
             return self.__substitute_system_state(res)
@@ -41,7 +41,7 @@ class Senec():
 
     def get_all_values(self):
         request_json = {"STATISTIC": {},"ENERGY": {},"FEATURES": {},"LOG": {},"SYS_UPDATE": {},"WIZARD": {},"BMS": {},"BAT1": {},"BAT1OBJ1": {},"BAT1OBJ2": {},"BAT1OBJ2": {},"BAT1OBJ3": {},"BAT1OBJ4": {},"PWR_UNIT": {},"PV1": {},"FACTORY": {},"GRIDCONFIG": {}}
-        response = requests.post(self.read_api, json=request_json)
+        response = requests.post(self.read_api, json=request_json, verify=False)
         if response.status_code == 200:
             return self.__decode_data(response.json())
         else:
